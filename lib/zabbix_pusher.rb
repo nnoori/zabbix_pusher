@@ -66,11 +66,14 @@ module ZabbixPusher
     end
 
     def processed_items
-      puts @payload.to_json
-      data = self.class.post('/jolokia', :body => @payload)
+      data = self.class.post('/jolokia', :body => @payload.to_json)
       result = Hash.new
-      data.each{|datum| result["#{datum['request']['mbean']};#{datum['request']['attribute']};#{datum['request']['path']}"] = datum['value'] if datum['request']}
+      data.each{|datum| result[result_key(datum)] = datum['value'] if datum['request']}
       result
+    end
+
+    def result_key(datum)
+      "#{datum['request']['mbean']};#{datum['request']['attribute']};#{datum['request']['path']}"
     end
   end
 

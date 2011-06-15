@@ -1,0 +1,96 @@
+<?xml version="1.0"?>
+<zabbix_export version="1.0" date="22.12.07" time="03.42">
+	<hosts>
+		<host name="Template_Tomcat">
+			<proxy_hostid>0</proxy_hostid>
+			<useip>0</useip>
+			<dns/>
+			<ip>0.0.0.0</ip>
+			<port>0</port>
+			<status>3</status>
+			<groups>
+				<group>Templates</group>
+				<group>Web Server</group>
+			</groups>
+			<triggers/>
+      <groups>
+				<group>Templates</group>
+			</groups>
+			<items>
+				<item type="7" key="jmx[java.lang:name=CMS Perm Gen,type=MemoryPool;Usage;committed]" value_type="3">
+					<description>memorypool cms perm gen committed</description>
+					<delay>30</delay>
+					<history>90</history>
+					<trends>365</trends>
+					<units>B</units>
+					<formula>1</formula>
+					<snmp_community>public</snmp_community>
+					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
+					<snmp_port>161</snmp_port>
+				</item>
+				<item type="7" key="jmx[java.lang:name=CMS Perm Gen,type=MemoryPool;Usage;max]" value_type="3">
+					<description>memorypool cms perm gen max</description>
+					<delay>3600</delay>
+					<history>90</history>
+					<trends>365</trends>
+					<units>B</units>
+					<formula>1</formula>
+					<snmp_community>public</snmp_community>
+					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
+					<snmp_port>161</snmp_port>
+				</item>
+				<item type="7" key="jmx[java.lang:name=CMS Perm Gen,type=MemoryPool;Usage;used]" value_type="3">
+					<description>memorypool cms perm gen used</description>
+					<delay>30</delay>
+					<history>90</history>
+					<trends>365</trends>
+					<units>B</units>
+					<formula>1</formula>
+					<snmp_community>public</snmp_community>
+					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
+					<snmp_port>161</snmp_port>
+				</item>
+			</items>
+			<triggers/>
+			<graphs>
+				<graph name="memorypool cms perm gen" width="900" height="200">
+					<show_work_period>1</show_work_period>
+					<show_triggers>1</show_triggers>
+					<ymin_type>0</ymin_type>
+                              <ymax_type>0</ymax_type>
+                              <ymin_item_key></ymin_item_key>
+                              <ymax_item_key></ymax_item_key>
+                              <show_work_period>0</show_work_period>
+                              <show_triggers>0</show_triggers>
+                              <graphtype>1</graphtype>
+                              <yaxismin>0.0000</yaxismin>
+                              <yaxismax>100.0000</yaxismax>
+                              <show_legend>0</show_legend>
+                              <show_3d>0</show_3d>
+                              <percent_left>0.0000</percent_left>
+                              <percent_right>0.0000</percent_right>
+					<graph_elements>
+						<graph_element item="{HOSTNAME}:jmx[java.lang:name=CMS Perm Gen,type=MemoryPool;Usage;committed]">
+							<color>000099</color>
+							<yaxisside>1</yaxisside>
+							<calc_fnc>2</calc_fnc>
+							<periods_cnt>5</periods_cnt>
+						</graph_element>
+						<graph_element item="{HOSTNAME}:jmx[java.lang:name=CMS Perm Gen,type=MemoryPool;Usage;max]">
+							<color>990000</color>
+							<yaxisside>1</yaxisside>
+							<calc_fnc>2</calc_fnc>
+							<periods_cnt>5</periods_cnt>
+						</graph_element>
+						<graph_element item="{HOSTNAME}:jmx[java.lang:name=CMS Perm Gen,type=MemoryPool;Usage;used]">
+							<color>009900</color>
+							<yaxisside>1</yaxisside>
+							<calc_fnc>2</calc_fnc>
+							<periods_cnt>5</periods_cnt>
+						</graph_element>
+					</graph_elements>
+				</graph>
+			</graphs>
+		</host>
+	</hosts>
+</zabbix_export>

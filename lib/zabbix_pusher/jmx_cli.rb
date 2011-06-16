@@ -1,5 +1,3 @@
-# -*- encoding: utf-8 -*-
-
 #
 # Author:: Edmund Haselwanter (<office@iteh.at>)
 # Copyright:: Copyright (c) 2011 Edmund Haselwanter
@@ -17,14 +15,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-$: << File.join(File.dirname(__FILE__), "/../lib")
-require 'zabbix_pusher'
-require 'fakeweb'
+require 'mixlib/cli'
 
-FakeWeb.allow_net_connect = false
+module ZabbixPusher
+  class PusherCLI
+    include Mixlib::CLI
 
-def fixture_file(filename)
-  return '' if filename == ''
-  file_path = File.expand_path(File.dirname(__FILE__) + '/fixtures/' + filename)
-  File.read(file_path)
+    option :jmx__base_uri,
+      :long  => "--jmx_base_uri uri",
+      :description => "The jmx base uri"
+
+  end
 end

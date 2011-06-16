@@ -36,24 +36,32 @@ module ZabbixPusher
       options[:sender_hostname] = Socket.gethostname unless options[:sender_hostname]
 
       @options = options
+      @templates = template_files(templates)
+      @items = template_items(@templates)
+    end
 
-      @templates = []
-      @templates = Dir.glob(File.join(templates),'*.xml') if !templates.is_a?(Array) && File.directory?(templates)
-      @templates = templates.map{ |template| template if File.exist?(template) }.compact if templates.is_a?(Array)
-      @templates =  [templates] if !templates.is_a?(Array) && File.exist?(templates)
+    def template_files(templates)
+      template_files = []
+      template_files = Dir.glob(File.join(templates,'*.xml')) if !templates.is_a?(Array) && File.directory?(templates)
+      template_files = templates.map{ |template| template if File.exist?(template) }.compact if templates.is_a?(Array)
+      template_files =  [templates] if !templates.is_a?(Array) && File.exist?(templates) && !File.directory?(templates)
+      template_files
+    end
 
-      @items = Hash.new
+    def template_items(templates)
+      parsed_items = Hash.new
 
-      @templates.each do |template|
+      templates.each do |template|
         template_items = Nokogiri::XML(File.open(template))
         items = template_items.xpath('//item').map {|item| item.attributes['key'].text}.compact
         items.each do |item|
             parts = item.match(/([^\[]+)\[([^\]]+)/)
             key = parts[1]
             attributes = parts[2]
-            (@items[key.to_sym]) ? @items[key.to_sym] << attributes : @items[key.to_sym] = [attributes]
+            (parsed_items[key.to_sym]) ? parsed_items[key.to_sym] << attributes : parsed_items[key.to_sym] = [attributes]
         end
       end
+      parsed_items
     end
 
     def send(items = :all)

@@ -38,9 +38,9 @@ module ZabbixPusher
       @options = options
 
       @templates = []
-      @templates = Dir.glob(File.join(templates),'*.xml') if File.directory?(templates)
+      @templates = Dir.glob(File.join(templates),'*.xml') if !templates.is_a?(Array) && File.directory?(templates)
       @templates = templates.map{ |template| template if File.exist?(template) }.compact if templates.is_a?(Array)
-      @templates =  [templates] if File.exist?(templates)
+      @templates =  [templates] if !templates.is_a?(Array) && File.exist?(templates)
 
       @items = Hash.new
 

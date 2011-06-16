@@ -26,4 +26,46 @@ module ZabbixPusher
       :description => "The jmx base uri"
 
   end
+
+  class JmxCLI
+    include Mixlib::CLI
+
+    option :base_uri,
+      :short => "-b uri",
+      :default => "localhost:8080",
+      :long  => "--base_uri uri",
+      :description => "The jmx base uri"
+
+    option :command,
+      :short => "-o command",
+      :default => "read",
+      :long  => "--command action",
+      :description => "The command to perform",
+      :proc => Proc.new { |o| o.to_sym }
+
+    option :mbean,
+      :short => "-m mbean",
+      :long  => "--mbean mbean",
+      :description => "The name of the mbean e.g. java.lang:type=Memory (needed for read command)"
+
+    option :attribute,
+      :short => "-a attribute",
+      :long  => "--attribute attribute",
+      :description => "The name of the action e.g. HeapMemoryUsage (needed for read command)"
+
+    option :path,
+      :short => "-p path",
+      :long  => "--path path",
+      :description => "The name of the path e.g. used (needed for read and list command)"
+
+    option :help,
+      :short => "-h",
+      :long => "--help",
+      :description => "Show this message",
+      :on => :tail,
+      :boolean => true,
+      :show_options => true,
+      :exit => 0
+
+  end
 end

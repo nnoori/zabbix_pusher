@@ -23,15 +23,20 @@ require "ap"
 $:.unshift(File.join(File.dirname(__FILE__), "..", "lib"))
 
 require "zabbix_pusher"
-require "zabbix_pusher/pusher_cli"
 require "zabbix_pusher/jmx_cli"
 
-cli = ZabbixPusher::PusherCLI.new
+cli = ZabbixPusher::JmxCLI.new
 cli.parse_options(ARGV)
 cli.config
 
-values =  ZabbixPusher::Pusher.new(cli.config[:templates],cli.config.merge(:jmx => {:base_uri => cli.config[:jmx__base_uri]}) ).send
+jmx =  ZabbixPusher::Jmx.new([],cli.config)
 
-ap values if cli.config[:show_send_values]
+case cli.config[:command]
+  when :read
+    ap jmx.send(cli.config[:command],cli.config[:mbean],cli.config[:attribute],cli.config[:path],cli.config)
+  when :list
+    ap jmx.send(cli.config[:command],cli.config[:path],cli.config)
+  when :search
+    ap jmx.send(cli.config[:command],cli.config[:mbean],cli.config)
 
-
+end

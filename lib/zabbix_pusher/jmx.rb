@@ -49,6 +49,14 @@ module ZabbixPusher
       self.class.post('/jolokia', :body => { "type" => "LIST", "path" => path, "config" => config}.to_json)
     end
 
+    def read(mbean,attribute,path=nil,config={})
+      payload = { "type" => "READ", "mbean" => mbean, "attribute" => attribute}
+      payload["path"] = path if path
+      payload["config"] = config if config.length > 0
+      ap payload.to_json
+      self.class.post('/jolokia', :body => payload.to_json)
+    end
+
     def version
       self.class.post('/jolokia', :body => { "type" => "VERSION"}.to_json)
     end

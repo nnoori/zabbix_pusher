@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+#!/usr/bin/env ruby
 
 #
 # Author:: Edmund Haselwanter (<office@iteh.at>)
@@ -17,14 +17,26 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-$: << File.join(File.dirname(__FILE__), "/../lib")
-require 'zabbix_pusher'
-require 'fakeweb'
+require "rubygems"
+require "ap"
 
-FakeWeb.allow_net_connect = false
+$:.unshift(File.join(File.dirname(__FILE__), "..", "lib"))
 
-def fixture_file(filename)
-  return '' if filename == ''
-  file_path = File.expand_path(File.dirname(__FILE__) + '/fixtures/' + filename)
-  File.read(file_path)
+require "zabbix_pusher"
+require "zabbix_pusher/jmx_cli"
+
+cli = ZabbixPusher::JmxCLI.new
+cli.parse_options(ARGV)
+cli.config
+
+jmx =  ZabbixPusher::Jmx.new([],cli.config)
+
+case cli.config[:command]
+  when :read
+    ap jmx.send(cli.config[:command],cli.config[:mbean],cli.config[:attribute],cli.config[:path],cli.config)
+  when :list
+    ap jmx.send(cli.config[:command],cli.config[:path],cli.config)
+  when :search
+    ap jmx.send(cli.config[:command],cli.config[:mbean],cli.config)
+
 end

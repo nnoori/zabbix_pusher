@@ -56,9 +56,13 @@ module ZabbixPusher
         items = template_items.xpath('//item').map {|item| item.attributes['key'].text}.compact
         items.each do |item|
             parts = item.match(/([^\[]+)\[([^\]]+)/)
-            key = parts[1]
-            attributes = parts[2]
-            (parsed_items[key.to_sym]) ? parsed_items[key.to_sym] << attributes : parsed_items[key.to_sym] = [attributes]
+            unless parts.nil?
+              key = parts[1].underscore.to_sym
+              attributes = parts[2]
+              (parsed_items[key]) ? parsed_items[key] << attributes : parsed_items[key] = [attributes]
+            else
+              puts "not evaluating: "+item
+            end
         end
       end
       parsed_items
@@ -68,7 +72,8 @@ module ZabbixPusher
 
       return if @items.nil?
 
-      pushers = ( items == :all) ? (@items.keys.map{ |key| "ZabbixPusher::#{key.to_s.camelize}".constantize}) : ["ZabbixPusher::#{items.camelize}".constantize]
+
+      pushers = ( items == :all) ? ( @items.keys.map{ |key| "ZabbixPusher::#{key.to_s.camelize}".constantize }) : ["ZabbixPusher::#{items.camelize}".constantize]
 
       processed_items = Hash.new
 

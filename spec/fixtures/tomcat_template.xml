@@ -12,10 +12,6 @@
 				<group>Templates</group>
 				<group>Web Server</group>
 			</groups>
-			<triggers/>
-      <groups>
-				<group>Templates</group>
-			</groups>
 			<items>
 				<item type="7" key="jmx[java.lang:name=CMS Perm Gen,type=MemoryPool;Usage;committed]" value_type="3">
 					<description>memorypool cms perm gen committed</description>

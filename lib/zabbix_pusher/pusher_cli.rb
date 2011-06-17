@@ -30,6 +30,7 @@ module ZabbixPusher
     option :templates,
       :short => "-t FILE",
       :long  => "--template FILE",
+      :default => File.join(ZabbixPusher.root,"examples"),
       :description => "The template file(s) to use, can be a file a comma separated list of files or a directory",
       #:required => true,
       :proc => Proc.new { |t| (t =~ /,/) ? t.split(',') : t }

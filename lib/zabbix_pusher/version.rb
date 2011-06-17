@@ -16,5 +16,5 @@
 # limitations under the License.
 
 module ZabbixPusher
-  VERSION = "0.0.4"
+  VERSION = "0.0.5"
 end

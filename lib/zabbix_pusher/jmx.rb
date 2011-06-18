@@ -54,7 +54,7 @@ module ZabbixPusher
       payload["path"] = path if path
       payload["config"] = config if config.length > 0
       ap payload.to_json
-      self.class.post('/jolokia', :body => payload.to_json)
+      self.class.post('/jolokia', :body => payload.to_json, :timeout => 5)
     end
 
     def version
@@ -62,9 +62,9 @@ module ZabbixPusher
     end
 
     def processed_items
-      data = self.class.post('/jolokia', :body => @payload.to_json)
+      data = self.class.post('/jolokia', :body => @payload.to_json, :timeout => 5) rescue nil
       result = Hash.new
-      data.each{|datum| result[result_key(datum)] = datum['value'] if datum['request']}
+      data.each{|datum| result[result_key(datum)] = datum['value'] if datum['request']} if data
       result
     end
 

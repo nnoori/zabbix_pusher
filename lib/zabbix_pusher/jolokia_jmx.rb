@@ -17,6 +17,8 @@
 
 require 'httparty'
 require 'active_support/core_ext'
+require 'json'
+
 
 class Jmx
 
@@ -38,7 +40,7 @@ class Jmx
     # http://www.jolokia.org/reference/html/protocol.html#search
 
     def search(mbean,config={})
-      self.class.post('/jolokia', :body => { "type" => "SEARCH", "mbean" => mbean, "config" => config}.to_json)
+      self.class.post('/jolokia/', :body => { "type" => "SEARCH", "mbean" => mbean, "config" => config}.to_json)
     end
 
     # http://www.jolokia.org/reference/html/protocol.html#list
@@ -91,7 +93,9 @@ JTest1=Jmx.new
 
 #test the JMX calls for the Jolokia 
 
-#puts(JTest1.search("Catalina:*"))
+new_s = JSON.generate(JTest1.search("Catalina:*"))
+puts new_s
+
 #puts(JTest1.list("java.lang/type=Memory/attr"))
 #puts(JTest1.exec("java.lang:type=Threading","dumpAllThreads",["true","true"]))
 #puts(JTest1.read("Catalina:J2EEApplication=none,J2EEServer=none,j2eeType=WebModule,name=//localhost/jolokia", "workDir"))
